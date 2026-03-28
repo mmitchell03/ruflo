@@ -40,8 +40,7 @@
   ],
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "cd ruflo/src/ruvocal && npm install && npm run build",
-    "start": "node ruflo/src/ruvocal/build/index.js",
+    "build": "tsc",
     "build:ts": "cd v3/@claude-flow/cli && npm run build || true",
     "test": "vitest",
     "test:ui": "vitest --ui",
