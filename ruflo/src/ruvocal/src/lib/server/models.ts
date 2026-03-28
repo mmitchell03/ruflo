@@ -491,7 +491,11 @@ const rebuildModels = async (): Promise<ModelsRefreshSummary> => {
 	return applyModelState(newModels, startedAt);
 };
 
-await rebuildModels();
+try {
+	await rebuildModels();
+} catch (err) {
+	logger.error(err, "[models] Failed to load models on startup — will retry on first request");
+}
 
 export const refreshModels = async (): Promise<ModelsRefreshSummary> => {
 	if (inflightRefresh) {
