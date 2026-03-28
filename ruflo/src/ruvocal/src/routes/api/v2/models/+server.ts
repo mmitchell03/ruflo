@@ -4,7 +4,15 @@ import type { GETModelsResponse } from "$lib/server/api/types";
 
 export const GET: RequestHandler = async () => {
 	try {
-		const { models } = await import("$lib/server/models");
+		const modelsModule = await import("$lib/server/models");
+		let { models } = modelsModule;
+
+		// Startup load may have failed if env vars weren't ready — retry now
+		if (models.length === 0) {
+			await modelsModule.refreshModels();
+			models = modelsModule.models;
+		}
+
 		return superjsonResponse(
 			models
 				.filter((m) => m.unlisted == false)
